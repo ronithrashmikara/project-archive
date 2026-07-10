@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            font-size: 18px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Guess the Number Game</h1>
+    <p>I'm thinking of a number between 1 and 100. Can you guess it?</p>
+    <div class="container">
+        <input type="number" id="userGuess" min="1" max="100" placeholder="Enter a number">
+        <button onclick="checkGuess()">Guess</button>
+    </div>
+    <p class="message" id="message"></p>
+
+    <script>
+        // Generate a random number between 1 and 100
+        const secretNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+
+        // Function to check the user's guess
+        function checkGuess() {
+            const userGuess = document.getElementById('userGuess').value;
+            const messageElement = document.getElementById('message');
+            attempts++;
+
+            if (userGuess == secretNumber) {
+                messageElement.textContent = `Congratulations! You guessed the number in ${attempts} attempts.`;
+                messageElement.style.color = "green";
+            } else if (userGuess < secretNumber) {
+                messageElement.textContent = "Too low! Try again.";
+                messageElement.style.color = "red";
+            } else if (userGuess > secretNumber) {
+                messageElement.textContent = "Too high! Try again.";
+                messageElement.style.color = "red";
+            } else {
+                messageElement.textContent = "Please enter a valid number.";
+                messageElement.style.color = "orange";
+            }
+        }
+    </script>
+</body>
+</html>

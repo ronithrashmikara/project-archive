@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lantern Click Game</title>
+    <style>
+        body {
+            background-color: #f5f5dc;
+            font-family: 'Noto Serif', serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #d32f2f;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .game-container {
+            max-width: 600px;
+            margin: 0 auto;
+            border: 2px solid #d32f2f;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #fff;
+        }
+
+        .game-area {
+            position: relative;
+            height: 400px;
+            border: 2px dashed #d32f2f;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .lantern {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 120px;
+            background: radial-gradient(circle, #d32f2f 30%, #c2185b 70%);
+            border-radius: 20px;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .lantern::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 20px;
+            background-color: #d32f2f;
+            border-radius: 5px;
+        }
+
+        .lantern::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 20px;
+            background-color: #d32f2f;
+            border-radius: 5px;
+        }
+
+        #score {
+            font-size: 1.5em;
+            color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Lantern Click Game</h1>
+        <div id="score">Score: 0</div>
+        <div class="game-area">
+            <div id="lantern" class="lantern"></div>
+        </div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="mixkit-video-game-treasure-2066.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Click Sound Effect -->
+    <audio id="clickSound">
+        <source src="mixkit-video-game-treasure-2066.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        let score = 0;
+        const scoreDisplay = document.getElementById('score');
+        const lantern = document.getElementById('lantern');
+        const bgMusic = document.getElementById('bgMusic');
+        const clickSound = document.getElementById('clickSound');
+
+        // Play the background music when the page loads
+        bgMusic.play();
+
+        // Function to move the lantern to a random position
+        function moveLantern() {
+            const gameArea = document.querySelector('.game-area');
+            const x = Math.random() * (gameArea.clientWidth - 80);
+            const y = Math.random() * (gameArea.clientHeight - 120);
+            lantern.style.left = `${x}px`;
+            lantern.style.top = `${y}px`;
+        }
+
+        // Add event listener for clicking the lantern
+        lantern.addEventListener('click', () => {
+            score++;
+            scoreDisplay.textContent = `Score: ${score}`;
+            moveLantern();
+
+            // Play the click sound effect
+            clickSound.play();
+        });
+
+        // Move the lantern initially
+        moveLantern();
+    </script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Dodge Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        canvas {
+            background-color: #87CEEB;
+            display: block;
+            border: 2px solid black;
+        }
+
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
+            color: white;
+            display: none;
+        }
+
+        #score {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 20px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div id="score">Score: 0</div>
+    <div class="game-over" id="gameOverText">Game Over! Press R to Restart</div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Game variables
+        let player = {
+            x: canvas.width / 2 - 25,
+            y: canvas.height - 60,
+            width: 50,
+            height: 50,
+            speed: 5
+        };
+
+        let blocks = [];
+        let score = 0;
+        let isGameOver = false;
+        let gameOverText = document.getElementById('gameOverText');
+        let scoreText = document.getElementById('score');
+
+        // Key listeners for player movement
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && player.x > 0) {
+                player.x -= player.speed;
+            }
+            if (e.key === 'ArrowRight' && player.x + player.width < canvas.width) {
+                player.x += player.speed;
+            }
+            if (e.key === 'r' && isGameOver) {
+                resetGame();
+            }
+        });
+
+        // Reset game state
+        function resetGame() {
+            player.x = canvas.width / 2 - 25;
+            player.y = canvas.height - 60;
+            blocks = [];
+            score = 0;
+            isGameOver = false;
+            gameOverText.style.display = 'none';
+            scoreText.innerText = 'Score: ' + score;
+            gameLoop();
+        }
+
+        // Draw player (square)
+        function drawPlayer() {
+            ctx.fillStyle = 'red';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+        }
+
+        // Create new falling block
+        function createBlock() {
+            let block = {
+                x: Math.random() * (canvas.width - 50),
+                y: 0,
+                width: 50,
+                height: 50,
+                speed: 3 + Math.random() * 2
+            };
+            blocks.push(block);
+        }
+
+        // Draw blocks
+        function drawBlocks() {
+            ctx.fillStyle = 'green';
+            blocks.forEach(block => {
+                ctx.fillRect(block.x, block.y, block.width, block.height);
+            });
+        }
+
+        // Update blocks
+        function updateBlocks() {
+            blocks.forEach(block => {
+                block.y += block.speed;
+            });
+            blocks = blocks.filter(block => block.y < canvas.height); // Remove blocks that are off screen
+        }
+
+        // Check for collisions with the player
+        function checkCollisions() {
+            blocks.forEach(block => {
+                if (
+                    player.x + player.width > block.x &&
+                    player.x < block.x + block.width &&
+                    player.y + player.height > block.y &&
+                    player.y < block.y + block.height
+                ) {
+                    // If the player collides with a block
+                    isGameOver = true;
+                    gameOverText.style.display = 'block';
+                }
+            });
+        }
+
+        // Update score
+        function updateScore() {
+            score++;
+            scoreText.innerText = 'Score: ' + score;
+        }
+
+        // Game loop
+        function gameLoop() {
+            if (isGameOver) return;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw player and blocks
+            drawPlayer();
+            drawBlocks();
+
+            // Update blocks
+            updateBlocks();
+
+            // Create new blocks at random intervals
+            if (Math.random() < 0.02) {
+                createBlock();
+            }
+
+            // Check for collisions
+            checkCollisions();
+
+            // Update score
+            updateScore();
+
+            // Continue game loop
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start the game
+        gameLoop();
+    </script>
+</body>
+</html>
