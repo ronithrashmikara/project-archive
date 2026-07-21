@@ -88,7 +88,7 @@ Each subfolder was originally its own small git repo. Nested `.git` directories 
 
 ```bash
 # clone once
-git clone https://github.com/InfiniteBloom-max/project-archive.git
+git clone https://github.com/ronithrashmikara/project-archive.git
 cd project-archive
 
 # polish one project
@@ -107,7 +107,7 @@ Open `index.html` in a browser for static HTML games. For extensions, load the u
 
 | | |
 | --- | --- |
-| **Author** | [InfiniteBloom-max](https://github.com/InfiniteBloom-max) |
+| **Author** | [ronithrashmikara](https://github.com/ronithrashmikara) |
 | **Earlier home** | Local archive under `SpecialistWealth-Repos` (former `SpecialistWealth/*` repos) |
 | **Intent** | Keep history in one place, revive gradually, not rewrite everything on day one |
 
