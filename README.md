@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/assets/banner.webp" alt="Project Archive banner" width="100%"></p>
+
 # Project Archive
 
 Early learning projects, mini-games, browser extensions, and studies collected in one place.
